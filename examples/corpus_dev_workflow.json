@@ -1,0 +1,74 @@
+{
+  "workdir": "..",
+  "output_dir": "artifacts/corpus-dev/workflow",
+  "variables": {
+    "out": "artifacts/corpus-dev",
+    "results": "{out}/minhash/minhash-5gram-20buckets-10hashes/results"
+  },
+  "steps": [
+    {
+      "id": "stage",
+      "command": "corpus-stage",
+      "args": [
+        "--inputs",
+        "data/pages/source-a",
+        "data/pages/source-b",
+        "--output-dir",
+        "{out}/staged"
+      ]
+    },
+    {
+      "id": "dedup",
+      "command": "corpus-dedup-pages",
+      "needs": [
+        "stage"
+      ],
+      "args": [
+        "{out}/staged",
+        "{out}/minhash",
+        "--force-serial",
+        "--audit-pages",
+        "--write-deduplicated-output",
+        "--booklet-shared-pages-threshold",
+        "5",
+        "--booklet-containment-threshold",
+        "0.8"
+      ]
+    },
+    {
+      "id": "audit",
+      "command": "corpus-audit-summary",
+      "needs": [
+        "dedup"
+      ],
+      "args": [
+        "--audit-dir",
+        "{results}/page_audit",
+        "--output-jsonl",
+        "{out}/pid_duplicates.jsonl"
+      ]
+    },
+    {
+      "id": "filter",
+      "command": "corpus-filter",
+      "needs": [
+        "audit"
+      ],
+      "args": [
+        "--input",
+        "data/pages/source-a/pages.jsonl",
+        "--input",
+        "data/pages/source-b/pages.jsonl",
+        "--output",
+        "{out}/final.jsonl.gz",
+        "--rule",
+        "{out}/pid_duplicates.jsonl",
+        "dup_ratio",
+        "<",
+        "0.8",
+        "--summary-output",
+        "{out}/filter_summary.json"
+      ]
+    }
+  ]
+}

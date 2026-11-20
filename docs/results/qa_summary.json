@@ -1,0 +1,13 @@
+{
+  "runs": 96,
+  "union_ids": 2340,
+  "common_ids": 2328,
+  "accuracy_scale": "0-1",
+  "std_ddof": 1,
+  "single_run_std": 0.0,
+  "intersection": "global across every manifest run",
+  "source": "GovPub-QA temperature sweep",
+  "aggregate_rows": 36,
+  "max_difference_from_original_rounded_aggregate": 4.8338999469876853e-11,
+  "raw_evaluated_rows": 224622
+}

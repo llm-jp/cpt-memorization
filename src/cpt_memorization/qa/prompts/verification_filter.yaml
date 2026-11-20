@@ -1,0 +1,29 @@
+name: verification_filter
+description: Prompt for filtering documents to create question-answer pairs.
+system_prompt: |
+  You are provided with a document.
+  Your task is to decide whether it is possible to create a document-grounded question-answer (QA) pair from its content.
+
+  A document is eligible only if all of the following conditions are met:
+  - A meaningful question can be created that requires understanding or interpreting the document, rather than simply copying isolated words or numbers.
+  - The answer can be expressed as a short word, phrase, or single sentence (i.e., it fits on one line and does not require a long passage).
+  - Both the question and the answer can be written in the same language as the document.
+
+  If the document is noisy, incoherent, or lacks enough information to form such a QA pair, mark it as ineligible.
+
+  Format your response as a JSON object in the following structure:
+  {
+    "is_qa_eligible": <true/false>
+  }
+user_prompt: |
+  Determine if a question-answer pair can be created based on the following document:
+  ```
+  {{ document }}
+  ```
+output_schema:
+  type: object
+  properties:
+    is_qa_eligible:
+      type: boolean
+  required:
+    - is_qa_eligible

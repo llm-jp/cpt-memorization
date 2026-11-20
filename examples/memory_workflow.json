@@ -1,0 +1,139 @@
+{
+  "workdir": "..",
+  "output_dir": "artifacts/memory-workflow/jobs",
+  "variables": {
+    "out": "artifacts/memory-workflow",
+    "tokenizer": "checkpoints/tokenizer"
+  },
+  "slurm": {
+    "partition": "gpu",
+    "time": "04:00:00",
+    "gres": "gpu:1",
+    "cpus_per_task": 4
+  },
+  "steps": [
+    {
+      "id": "sample",
+      "command": "memory-sample",
+      "args": [
+        "--model",
+        "checkpoints/base",
+        "--tokenizer",
+        "{tokenizer}",
+        "--input-file",
+        "data/evaluation_corpus.jsonl.gz",
+        "--output-file",
+        "{out}/samples.jsonl",
+        "--sample-size",
+        "9890",
+        "--snippet-length",
+        "200",
+        "400",
+        "600",
+        "800",
+        "1000",
+        "--suffix-length",
+        "50",
+        "--seed",
+        "42"
+      ]
+    },
+    {
+      "id": "base",
+      "command": "memory-generate",
+      "needs": [
+        "sample"
+      ],
+      "args": [
+        "--model",
+        "checkpoints/base",
+        "--tokenizer",
+        "{tokenizer}",
+        "--input-file",
+        "{out}/samples.jsonl",
+        "--output-file",
+        "{out}/completions/base/iter_0.jsonl",
+        "--seed",
+        "42"
+      ]
+    },
+    {
+      "id": "target",
+      "command": "memory-generate",
+      "needs": [
+        "sample"
+      ],
+      "args": [
+        "--model",
+        "checkpoints/mixed",
+        "--tokenizer",
+        "{tokenizer}",
+        "--input-file",
+        "{out}/samples.jsonl",
+        "--output-file",
+        "{out}/completions/mixed/iter_65000.jsonl",
+        "--seed",
+        "42"
+      ]
+    },
+    {
+      "id": "report",
+      "command": "memory-paired",
+      "needs": [
+        "base",
+        "target"
+      ],
+      "args": [
+        "--base-jsonl",
+        "{out}/completions/base/iter_0.jsonl",
+        "--input-jsonl",
+        "{out}/completions/mixed/iter_65000.jsonl",
+        "--output-json",
+        "{out}/paired.json",
+        "--output-csv",
+        "{out}/paired.csv",
+        "--bleu-threshold",
+        "0.75",
+        "--workers",
+        "1"
+      ]
+    },
+    {
+      "id": "low-jaccard",
+      "command": "memory-extract-low-jaccard",
+      "needs": [
+        "base",
+        "target"
+      ],
+      "args": [
+        "--completions-root",
+        "{out}/completions",
+        "--final-only",
+        "--output-csv",
+        "{out}/low-jaccard.csv",
+        "--workers",
+        "1"
+      ]
+    },
+    {
+      "id": "residual",
+      "command": "memory-residual",
+      "needs": [
+        "base",
+        "target"
+      ],
+      "args": [
+        "--base-jsonl",
+        "{out}/completions/base/iter_0.jsonl",
+        "--input-jsonl",
+        "{out}/completions/mixed/iter_65000.jsonl",
+        "--output-dir",
+        "{out}/residual",
+        "--snippet-length",
+        "1000",
+        "--control-size",
+        "300"
+      ]
+    }
+  ]
+}

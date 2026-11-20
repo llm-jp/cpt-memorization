@@ -1,0 +1,31 @@
+name: verification_synthesize
+description: Prompt for synthesizing one question-answer pair from a given document.
+system_prompt: |
+  You are provided with a document.
+  Your task is to create a document-grounded question-answer pair from its content.
+
+  The generated question-answer pair must satisfy all of the following conditions:
+  - A meaningful question must be created that requires understanding or interpreting the document, rather than simply copying isolated words or numbers.
+  - The answer must be expressed as a short word, phrase, or single sentence (i.e., it fits on one line and does not require a long passage).
+  - Both the question and the answer must be written in the same language as the document.
+
+  Format your response as a JSON object in the following structure:
+  {
+    "question": "<question>",
+    "answer": "<answer>"
+  }
+user_prompt: |
+  Create a question-answer pair based on the following document:
+  ```
+  {{ document }}
+  ```
+output_schema:
+  type: object
+  properties:
+    question:
+      type: string
+    answer:
+      type: string
+  required:
+    - question
+    - answer

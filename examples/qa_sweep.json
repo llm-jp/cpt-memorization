@@ -1,0 +1,46 @@
+{
+  "qa_file": "../artifacts/qa/synthesized.jsonl",
+  "output_dir": "../artifacts/qa-sweep",
+  "models": {
+    "BASE": {
+      "model_name": "checkpoints/base",
+      "tokenizer": "checkpoints/tokenizer"
+    },
+    "GovOnly": {
+      "model_name": "checkpoints/domain-only",
+      "tokenizer": "checkpoints/tokenizer"
+    },
+    "GovMix": {
+      "model_name": "checkpoints/mixed",
+      "tokenizer": "checkpoints/tokenizer"
+    }
+  },
+  "judge": {
+    "model_name": "openai/gpt-oss-120b",
+    "tensor_parallel_size": 8,
+    "seed": 42
+  },
+  "answer_options": {
+    "num_shots": 3,
+    "max_tokens": 256,
+    "few_shot_seed": 42
+  },
+  "modes": [
+    "open",
+    "closed"
+  ],
+  "temperatures": [
+    0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "greedy_runs": 1
+}

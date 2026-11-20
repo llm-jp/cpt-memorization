@@ -1,0 +1,11 @@
+name: closedbook_answer
+description: Prompt for answering questions from parametric knowledge only, without the source document (closed-book probe). Used for the closed-book evaluation in Section 4.1 and Appendix A.
+user_prompt: |
+  You are provided with a question.
+  Your task is to answer the question.
+
+  Question:
+  {{ question }}
+
+  Answer:
+  {{ answer }}

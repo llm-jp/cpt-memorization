@@ -1,0 +1,32 @@
+name: verification_evaluate
+description: Prompt for verifying the correctness of answers to questions based on documents.
+system_prompt: |
+  You are provided with a document, a question, and an answer.
+  Your task is to verify the correctness of the answer based solely on the information contained in the document.
+
+  The predicted answer may contain extra, irrelevant text after the main answer.
+  Evaluate only the portion of the predicted answer that directly answers the question, and ignore any additional content.
+
+  Format your response as a JSON object in the following structure:
+  {
+    "is_correct": <true/false>
+  }
+user_prompt: |
+  Document:
+  {{ document }}
+
+  Question:
+  {{ question }}
+
+  Gold answer:
+  {{ answer }}
+
+  Predicted answer:
+  {{ predicted_answer }}
+output_schema:
+  type: object
+  properties:
+    is_correct:
+      type: boolean
+  required:
+    - is_correct

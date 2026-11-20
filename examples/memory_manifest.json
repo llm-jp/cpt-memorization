@@ -1,0 +1,15 @@
+{
+  "base_file": "fixtures/base_completions.jsonl",
+  "runs": [
+    {
+      "variant": "Domain only",
+      "tokens_B": 10,
+      "path": "fixtures/domain_completions.jsonl"
+    },
+    {
+      "variant": "Mixed corpus",
+      "tokens_B": 10,
+      "path": "fixtures/mixed_completions.jsonl"
+    }
+  ]
+}

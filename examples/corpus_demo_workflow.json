@@ -1,0 +1,56 @@
+{
+  "workdir": "..",
+  "output_dir": "artifacts/demo-corpus/workflow",
+  "variables": {
+    "input": "examples/fixtures/corpus_pages.jsonl",
+    "out": "artifacts/demo-corpus"
+  },
+  "steps": [
+    {
+      "id": "clean",
+      "command": "corpus-clean-edges",
+      "args": [
+        "{input}",
+        "--output-dir",
+        "{out}/clean",
+        "--no-progress"
+      ]
+    },
+    {
+      "id": "ratios",
+      "command": "corpus-lz77",
+      "needs": [
+        "clean"
+      ],
+      "args": [
+        "{out}/clean/corpus_pages.jsonl",
+        "--output-dir",
+        "{out}/lz77",
+        "--output-jsonl",
+        "{out}/ratios.jsonl",
+        "--workers",
+        "1"
+      ]
+    },
+    {
+      "id": "filter",
+      "command": "corpus-filter",
+      "needs": [
+        "ratios"
+      ],
+      "args": [
+        "--input",
+        "{out}/clean/corpus_pages.jsonl",
+        "--output",
+        "{out}/final.jsonl.gz",
+        "--rule",
+        "{out}/ratios.jsonl",
+        "compression_ratio",
+        ">",
+        "0.1",
+        "--summary-output",
+        "{out}/summary.json"
+      ]
+    }
+  ]
+}

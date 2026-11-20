@@ -1,0 +1,36 @@
+{
+  "runs": [
+    {
+      "mode": "open",
+      "temperature": 0.4,
+      "model": "base",
+      "run": 1,
+      "path": "fixtures/qa_base_1.jsonl",
+      "label": "base-1"
+    },
+    {
+      "mode": "open",
+      "temperature": 0.4,
+      "model": "base",
+      "run": 2,
+      "path": "fixtures/qa_base_2.jsonl",
+      "label": "base-2"
+    },
+    {
+      "mode": "open",
+      "temperature": 0.4,
+      "model": "adapted",
+      "run": 1,
+      "path": "fixtures/qa_adapted_1.jsonl",
+      "label": "adapted-1"
+    },
+    {
+      "mode": "open",
+      "temperature": 0.4,
+      "model": "adapted",
+      "run": 2,
+      "path": "fixtures/qa_adapted_2.jsonl",
+      "label": "adapted-2"
+    }
+  ]
+}
