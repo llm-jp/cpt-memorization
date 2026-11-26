@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Modified from the llm-jp/scripts MinHash pipeline; see THIRD_PARTY_NOTICES.md.
 """
 Unified MinHash dedup pipeline with optional audit logging and Slurm execution.
 Based on:

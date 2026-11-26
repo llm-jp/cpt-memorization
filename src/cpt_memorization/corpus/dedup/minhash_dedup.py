@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Modified from the llm-jp/scripts MinHash pipeline; see THIRD_PARTY_NOTICES.md.
 """
 minhash_dedup.py
 from

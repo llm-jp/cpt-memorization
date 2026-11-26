@@ -61,9 +61,9 @@ The [paper mapping](docs/PAPER.md) identifies the inputs and external tools need
 for each experiment. The [QA tables](docs/results) give the results on questions
 shared across all evaluated runs. The [validation record](docs/VALIDATION.md)
 describes the CPU tests and the [compatibility notes](docs/MIGRATION.md)
-describe the behavior of the workflow runner and metrics. See
-[license status](LICENSE_STATUS.md) and [third-party notices](THIRD_PARTY_NOTICES.md)
-for terms and attribution.
+describe the behavior of the workflow runner and metrics. The original project code is licensed under the [MIT License](LICENSE).
+See [license details](LICENSE_STATUS.md) and [third-party notices](THIRD_PARTY_NOTICES.md)
+for the Apache-2.0 MinHash code and separate terms for external materials.
 
 To run the CPU regression tests, command checks, and distribution checks, use
 Git and uv from the repository root.
